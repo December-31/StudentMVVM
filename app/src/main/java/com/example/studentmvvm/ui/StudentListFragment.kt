@@ -89,4 +89,3 @@ class StudentListFragment : Fragment() {
         _binding = null
     }
 }
-            }
