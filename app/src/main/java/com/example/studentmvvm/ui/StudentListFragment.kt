@@ -3,6 +3,7 @@ package com.example.studentmvvm.ui
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import com.example.studentmvvm.R
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -55,6 +56,7 @@ class StudentListFragment : Fragment() {
         }
     }
     private fun setupListeners() {
+        binding.toolbar.inflateMenu(R.menu.menu_student_list)
         binding.fabAdd.setOnClickListener {
             AddStudentDialogFragment().show(childFragmentManager, "ADD_STUDENT_DIALOG")
         }
