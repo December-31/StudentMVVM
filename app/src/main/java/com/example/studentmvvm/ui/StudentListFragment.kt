@@ -1,60 +1,92 @@
 package com.example.studentmvvm.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.studentmvvm.R
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [StudentListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.studentmvvm.databinding.FragmentStudentListBinding
+import com.example.studentmvvm.model.Student
+import com.example.studentmvvm.ui.adapter.StudentAdapter
+import com.example.studentmvvm.viewmodel.StudentViewModel
 class StudentListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    // Backing Property: Quản lý an toàn vòng đời ViewBinding của Fragment
+    private var _binding: FragmentStudentListBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: StudentViewModel by activityViewModels()
+    private lateinit var adapter: StudentAdapter
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState:
+    Bundle?): View {
+        _binding = FragmentStudentListBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+        observeViewModel()
+        setupListeners()
+    }
+    private fun setupRecyclerView() {
+        adapter = StudentAdapter(
+            onStudentClick = { student -> showStudentDetailDialog(student) },
+            onDeleteClick = { student -> confirmDelete(student) }
+        )
+        binding.rvStudents.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = this@StudentListFragment.adapter
+            setHasFixedSize(true)
         }
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_student_list, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment StudentListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            StudentListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    private fun observeViewModel() {
+        // Quan sát danh sách sinh viên tự động từ Room DB
+        viewModel.allStudents.observe(viewLifecycleOwner) { list ->
+            adapter.submitList(list)
+            binding.layoutEmpty.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
+            binding.tvStudentCountBadge.text = "${list.size} sinh viên"
+        }
+        viewModel.statusMessage.observe(viewLifecycleOwner) { msg ->
+            if (!msg.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+    private fun setupListeners() {
+        binding.fabAdd.setOnClickListener {
+            AddStudentDialogFragment().show(childFragmentManager, "ADD_STUDENT_DIALOG")
+        }
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                com.example.studentmvvm.R.id.action_sync -> {
+                    viewModel.syncFromCloud()
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+    private fun confirmDelete(student: Student) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Xác Nhận Xóa")
+            .setMessage("Bạn có chắc muốn xóa sinh viên ${student.fullName} khỏi CSDL Room?")
+            .setPositiveButton("Xóa") { _, _ -> viewModel.delete(student) }
+            .setNegativeButton("Hủy", null)
+            .show()
+    }
+    private fun showStudentDetailDialog(student: Student) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Thông Tin Sinh Viên")
+            .setMessage("ID: ${student.id}\nHọ Tên: ${student.fullName}\nMSSV: ${student.studentCode} Email: ${student.email}\nĐiểm GPA: ${student.gpa}")
+        .setPositiveButton("Đóng", null)
+            .show()
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // Bắt buộc giải phóng ViewBinding để chống rò rỉ bộ nhớ (Memory Leak)
+        _binding = null
     }
 }
+            }
