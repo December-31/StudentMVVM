@@ -1,4 +1,4 @@
-package com.ute.studentmvvm.data
+package com.example.studentmvvm.data
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
