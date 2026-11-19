@@ -3,18 +3,57 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="20dp">
+    android:paddingHorizontal="24dp"
+    android:paddingTop="12dp">
 
-    <EditText android:id="@+id/etFullName"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:hint="Họ và tên" android:inputType="textPersonName" />
-    <EditText android:id="@+id/etStudentCode"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:hint="MSSV" android:inputType="text" />
-    <EditText android:id="@+id/etEmail"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:hint="Email (có thể bỏ trống)" android:inputType="textEmailAddress" />
-    <EditText android:id="@+id/etGpa"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:hint="GPA" android:inputType="numberDecimal" />
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Họ và tên">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etFullName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName|textCapWords" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="MSSV">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etStudentCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="Email (có thể bỏ trống)">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="GPA (0 - 4)">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etGpa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal" />
+    </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

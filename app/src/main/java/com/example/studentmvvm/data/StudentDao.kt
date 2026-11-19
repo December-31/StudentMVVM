@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.ute.studentmvvm.model.Student
+import com.example.studentmvvm.model.Student
 import kotlinx.coroutines.flow.Flow
 @Dao
 interface StudentDao {

@@ -3,25 +3,45 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+        <!-- Phần đầu màu xanh -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="Quản Lý Sinh Viên" />
-
-        <TextView
-            android:id="@+id/tvStudentCountBadge"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
-            android:text="0 sinh viên" />
+            android:background="?attr/colorPrimary"
+            android:fitsSystemWindows="true"
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                app:title="Quản Lý Sinh Viên"
+                app:titleTextColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/tvStudentCountBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:paddingStart="14dp"
+                android:paddingTop="6dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="6dp"
+                android:text="0 sinh viên"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -33,18 +53,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
-                android:padding="8dp" />
+                android:paddingTop="8dp"
+                android:paddingBottom="100dp" />
 
             <LinearLayout
                 android:id="@+id/layoutEmpty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical"
                 android:visibility="gone">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chưa có sinh viên nào" />
+                    android:text="🎓"
+                    android:textSize="56sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Chưa có sinh viên nào"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bấm nút + để thêm mới"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textSize="13sp" />
             </LinearLayout>
         </FrameLayout>
     </LinearLayout>
@@ -54,7 +94,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:contentDescription="Thêm"
-        android:src="@android:drawable/ic_input_add" />
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="32dp"
+        android:contentDescription="Thêm sinh viên"
+        android:src="@android:drawable/ic_input_add"
+        app:backgroundTint="?attr/colorPrimary"
+        app:tint="@android:color/white" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
