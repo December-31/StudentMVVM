@@ -1,6 +1,6 @@
 package com.example.studentmvvm.network
 
-import com.ute.studentmvvm.model.Student
+import com.example.studentmvvm.model.Student
 
 data class StudentDto(
     val id: Int,
